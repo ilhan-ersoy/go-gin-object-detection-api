@@ -9,5 +9,6 @@ import (
 func ObjectRouter(app *gin.Engine) {
 	app.POST("/object-detection", controllers.CreateObject())
 	app.GET("/objects/:user_id", controllers.GetUserObjects())
-	// app.GET("/objects/get/:item_id", controllers.GetUserObjects())
+	app.GET("/object/get/:item_id", controllers.GetObject())
+	app.DELETE("/object/delete/:item_id", controllers.DeleteObject())
 }

@@ -90,13 +90,42 @@ func GetObject() gin.HandlerFunc {
 
 		itemID := c.Param("item_id")
 
-		err := objectsCollection.FindOne(ctx, bson.M{"_id": itemID}).Decode(&object)
+		objID, _ := primitive.ObjectIDFromHex(itemID)
+
+		err := objectsCollection.FindOne(ctx, bson.M{"_id": objID}).Decode(&object)
 
 		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{"data": err.Error()})
+			c.JSON(http.StatusOK, gin.H{
+				"data": err.Error(),
+			})
+			return
+		}
+		c.JSON(http.StatusOK, object)
+
+	}
+}
+
+func DeleteObject() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		itemID := c.Param("item_id")
+
+		objID, _ := primitive.ObjectIDFromHex(itemID)
+
+		err := objectsCollection.FindOneAndDelete(ctx, bson.M{"_id": objID})
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"data": err.Err(),
+			})
 			return
 		}
 
-		c.JSON(http.StatusOK, object)
+		c.JSON(http.StatusOK, gin.H{
+			"data": "ok",
+		})
+
 	}
 }
