@@ -101,7 +101,6 @@ func SignUp() gin.HandlerFunc {
 	}
 }
 
-// Login is the api used to tget a single user
 func Login() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
@@ -192,7 +191,6 @@ func GetUsers() gin.HandlerFunc {
 	}
 }
 
-// GetUser is the api used to tget a single user
 func GetUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userId := c.Param("user_id")

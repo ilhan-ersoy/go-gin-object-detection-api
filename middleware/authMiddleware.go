@@ -13,7 +13,7 @@ func Authentication() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		clientToken := c.Request.Header.Get("token")
 		if clientToken == "" {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("No Authorization")})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("auth failed")})
 			c.Abort()
 			return
 		}
