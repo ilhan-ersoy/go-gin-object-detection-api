@@ -1,7 +1,7 @@
 package main
 
 import (
-	routes "user-athentication-golang/routes"
+	routes "go-gin-object-detection-api/routes"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/heroku/x/hmetrics/onload"
