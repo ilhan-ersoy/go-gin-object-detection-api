@@ -1,7 +1,7 @@
 package routes
 
 import (
-	controller "user-athentication-golang/controllers"
+	controller "go-gin-object-detection-api/controllers"
 
 	"github.com/gin-gonic/gin"
 )

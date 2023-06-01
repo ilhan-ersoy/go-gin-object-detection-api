@@ -12,10 +12,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 
-	"user-athentication-golang/database"
+	"go-gin-object-detection-api/database"
 
-	helper "user-athentication-golang/helpers"
-	"user-athentication-golang/models"
+	helper "go-gin-object-detection-api/helpers"
+	"go-gin-object-detection-api/models"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

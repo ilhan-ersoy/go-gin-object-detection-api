@@ -1,8 +1,8 @@
 package routes
 
 import (
-	controller "user-athentication-golang/controllers"
-	"user-athentication-golang/middleware"
+	controller "go-gin-object-detection-api/controllers"
+	"go-gin-object-detection-api/middleware"
 
 	"github.com/gin-gonic/gin"
 )

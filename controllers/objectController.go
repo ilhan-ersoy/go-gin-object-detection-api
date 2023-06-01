@@ -3,11 +3,11 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"go-gin-object-detection-api/database"
+	helper "go-gin-object-detection-api/helpers"
+	"go-gin-object-detection-api/models"
 	"net/http"
 	"time"
-	"user-athentication-golang/database"
-	helper "user-athentication-golang/helpers"
-	"user-athentication-golang/models"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
