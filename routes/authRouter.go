@@ -9,5 +9,5 @@ import (
 func AuthRoutes(app *gin.Engine) {
 	app.POST("/users/signup", controller.SignUp())
 	app.POST("/users/login", controller.Login())
-	
+
 }

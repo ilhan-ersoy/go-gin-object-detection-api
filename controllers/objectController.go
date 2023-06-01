@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"time"
 	"user-athentication-golang/database"
@@ -19,15 +20,32 @@ var objectsCollection *mongo.Collection = database.OpenCollection(database.Clien
 func CreateObject() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		var object models.Object
 		defer cancel()
 
-		err := c.BindJSON(&object)
+		var object models.Object
 
+		err := c.BindJSON(&object)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": err.Error(),
 			})
+			return
+		}
+
+		existingObject := models.Object{}
+		filter := bson.M{"image": object.Image}
+		err = objectsCollection.FindOne(ctx, filter).Decode(&existingObject)
+
+		if err == nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": fmt.Sprintf("A data with the same image already exists: %s", existingObject.ID.Hex()),
+			})
+			return
+		} else if err != mongo.ErrNoDocuments {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
 		}
 
 		newObject := models.Object{
@@ -41,7 +59,6 @@ func CreateObject() gin.HandlerFunc {
 		}
 
 		result, err := objectsCollection.InsertOne(ctx, newObject)
-
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": err.Error(),
@@ -52,7 +69,6 @@ func CreateObject() gin.HandlerFunc {
 		c.JSON(http.StatusCreated, gin.H{
 			"data": result.InsertedID,
 		})
-
 	}
 }
 
@@ -127,5 +143,29 @@ func DeleteObject() gin.HandlerFunc {
 			"data": "ok",
 		})
 
+	}
+}
+
+func DeleteObjects() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		userId := c.Param("user_id")
+
+		filter := bson.D{{"user_id", userId}}
+
+		_, err := objectsCollection.DeleteMany(ctx, filter)
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"data": err.Error(),
+			})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"data": "ok",
+		})
 	}
 }
