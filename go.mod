@@ -1,4 +1,4 @@
-module user-athentication-golang
+module go-gin-object-detection-api
 
 go 1.15
 
