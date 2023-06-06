@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	helper "user-athentication-golang/helpers"
+	helper "go-gin-object-detection-api/helpers"
 
 	"github.com/gin-gonic/gin"
 )
