@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"go-gin-object-detection-api/database"
 	helper "go-gin-object-detection-api/helpers"
 	"go-gin-object-detection-api/models"
@@ -32,21 +31,21 @@ func CreateObject() gin.HandlerFunc {
 			return
 		}
 
-		existingObject := models.Object{}
-		filter := bson.M{"image": object.Image}
-		err = objectsCollection.FindOne(ctx, filter).Decode(&existingObject)
+		// existingObject := models.Object{}
+		// filter := bson.M{"image": object.Image}
+		// err = objectsCollection.FindOne(ctx, filter).Decode(&existingObject)
 
-		if err == nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": fmt.Sprintf("A data with the same image already exists: %s", existingObject.ID.Hex()),
-			})
-			return
-		} else if err != mongo.ErrNoDocuments {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": err.Error(),
-			})
-			return
-		}
+		// if err == nil {
+		// 	c.JSON(http.StatusBadRequest, gin.H{
+		// 		"error": fmt.Sprintf("A data with the same image already exists: %s", existingObject.ID.Hex()),
+		// 	})
+		// 	return
+		// } else if err != mongo.ErrNoDocuments {
+		// 	c.JSON(http.StatusInternalServerError, gin.H{
+		// 		"error": err.Error(),
+		// 	})
+		// 	return
+		// }
 
 		newObject := models.Object{
 			ID:         primitive.NewObjectID(),
